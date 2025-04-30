@@ -1,7 +1,9 @@
 use axum::{
     routing::get,
     Router,
+    response::Json,
 };
+use serde_json::json;
 use tower_http::cors::{Any, CorsLayer};
 
 #[tokio::main]
@@ -10,7 +12,9 @@ async fn main() {
 
     // build our application with a single route
     let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
+        .route("/", get(|| async {
+            Json(json!({ "message": "Hello, World!" }))
+        }))
         .layer(cors);
 
     // run our app with hyper, listening globally on port 3000
